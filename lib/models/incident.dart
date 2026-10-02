@@ -20,9 +20,26 @@ class Incident {
     const services = [
       'Payments API',
       'Authentication',
-      'Notifications',
-      'Analytics',
+      'Notification Service',
+      'Search Service',
+      'Analytics API',
+      'Customer Profile API',
     ];
+
+    const issues = [
+      'elevated response latency',
+      'increased error rate',
+      'timeout threshold exceeded',
+      'health check failures',
+      'connection pool saturation',
+      'degraded request throughput',
+    ];
+
+    final index = (id - 1) % services.length;
+
+    final service = services[index];
+
+    final issue = issues[index];
 
     String severity;
 
@@ -30,19 +47,21 @@ class Incident {
       case 0:
         severity = 'Critical';
         break;
+
       case 1:
         severity = 'Warning';
         break;
+
       default:
         severity = 'Low';
     }
 
     return Incident(
       id: id,
-      title: json['title'] as String,
+      title: '$service — $issue',
       severity: severity,
       status: completed ? 'Resolved' : 'Investigating',
-      service: services[id % services.length],
+      service: service,
     );
   }
 }
